@@ -10,6 +10,9 @@ import views.html
 import play.api.data.Form
 import play.api.data.Forms._
 
+import scala.concurrent.Future
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+
 class Application extends Controller with LoginLogout with AuthConfigImpl {
 
   def index = Action {
@@ -18,9 +21,8 @@ class Application extends Controller with LoginLogout with AuthConfigImpl {
 
   /** ログインFormはアプリケーションに応じて自由に作成してください。 */
   val loginForm = Form {
-    mapping("name" -> text, "password" -> text)
-    //mapping("name" -> text, "password" -> text)(Account.authenticate)(_.map(u => (u.email, "")))
-//      .verifying("Invalid email or password", result => result.isDefined)
+    mapping("name" -> text, "password" -> text)(Account.authenticate)(_.map(u => (u.name, "")))
+      .verifying("Invalid name or password", result => result.isDefined)
   }
 
   /** ログインページはアプリケーションに応じて自由に作成してください。 */
