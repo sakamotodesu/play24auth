@@ -1,10 +1,7 @@
 package models
 
-import _root_.scalikejdbc.DBSession
 import anorm.SqlParser._
 import anorm._
-import com.sun.xml.internal.bind.v2.TODO
-import org.mindrot.jbcrypt.BCrypt
 import play.api.db.DB
 
 /**
