@@ -1,7 +1,14 @@
-CREATE SEQUENCE user_id_seq;
+# Tasks schema
+
+# --- !Ups
+
 CREATE TABLE account (
-    id         integer NOT NULL PRIMARY KEY DEFAULT nextval('user_id_seq'),
-    password   varchar NOT NULL UNIQUE ,
+    id         integer NOT NULL PRIMARY KEY,
+    password   varchar NOT NULL UNIQUE,
     name       varchar NOT NULL,
     role       varchar NOT NULL
 );
+
+# --- !Downs
+
+DROP TABLE task;

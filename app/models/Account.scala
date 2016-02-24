@@ -19,27 +19,32 @@ object Account {
       case _ => Left(TypeDoesNotMatch("Cannot convert " + value + ":" + value.asInstanceOf[AnyRef].getClass + " to Role for column " + qualified))
     }
   }
+
   val account = {
     get[Int]("id") ~
       get[String]("password") ~
       get[String]("name") ~
       get[Role]("role") map {
-      case id ~ password ~ name ~ role => Account(id,password,name,role )
+      case id ~ password ~ name ~ role => Account(id, password, name, role)
     }
   }
-  def authenticate(name: String, password: String): Option[Account] =DB.withConnection { implicit c =>
-    SQL("select * from account where {name}").on('name -> name).as(account *).find(_.password==password)
+
+  def authenticate(name: String, password: String): Option[Account] = DB.withConnection { implicit c =>
+    SQL("select * from account where {name}").on('name -> name).as(account *).find(_.password == password)
   }
 
-  def findByIdAsync(id: Int)= Some(Account(1,"password","name",Administrator))
+  def findByIdAsync(id: Int) = Some(Account(1, "password", "name", Administrator))
 
-  def findByName(name: String)= Some(Account(1,"password","name",Administrator))
+  def findByName(name: String) = Some(Account(1, "password", "name", Administrator))
 
-  def findAll()= DB.withConnection { implicit c =>
+  def findAll() = DB.withConnection { implicit c =>
     SQL("select * from account").as(account *)
   }
 
-  def create(account: Account) = {}
+  def create(account: Account) = {
+
+    }
+  }
 
 
 }
