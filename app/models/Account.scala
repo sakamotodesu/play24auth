@@ -2,8 +2,8 @@ package models
 
 import anorm.SqlParser._
 import anorm._
-import play.api.db.DB
 import play.api.Play.current
+import play.api.db.DB
 
 /**
   * Created by sakamotominoru on 2016/02/14.
@@ -20,11 +20,15 @@ object Account {
     }
   }
 
+  implicit def roleToStatement = new ToStatement[Role] {
+    def set(s: java.sql.PreparedStatement, index: Int, aValue: Role): Unit = s.setObject(index, aValue)
+  }
+
   val account = {
     get[Int]("id") ~
-      get[String]("password") ~
-      get[String]("name") ~
-      get[Role]("role") map {
+            get[String]("password") ~
+            get[String]("name") ~
+            get[Role]("role") map {
       case id ~ password ~ name ~ role => Account(id, password, name, role)
     }
   }
@@ -42,7 +46,10 @@ object Account {
   }
 
   def create(account: Account) = {
-
+    DB.withConnection { implicit c =>
+      SQL("insert into account (id, password, name, role) values ({id}, {password}, {name}, {role})")
+              .on('id -> account.id, 'password -> account.password, 'name -> account.name,'role -> account.role)
+              .executeUpdate()
     }
   }
 
