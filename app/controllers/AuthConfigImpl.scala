@@ -54,19 +54,19 @@ trait AuthConfigImpl extends AuthConfig {
     * ログインが成功した際に遷移する先を指定します。
     */
   def loginSucceeded(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] =
-    Future.successful(Redirect(routes.Message.main))
+    Future.successful(Redirect(routes.Message.main()))
 
   /**
     * ログアウトが成功した際に遷移する先を指定します。
     */
   def logoutSucceeded(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] =
-    Future.successful(Redirect(routes.Application.login))
+    Future.successful(Redirect(routes.Application.login()))
 
   /**
     * 認証が失敗した場合に遷移する先を指定します。
     */
   def authenticationFailed(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] =
-    Future.successful(Redirect(routes.Application.login))
+    Future.successful(Redirect(routes.Application.login()))
 
   /**
     * 認可(権限チェック)が失敗した場合に遷移する先を指定します。
@@ -86,6 +86,5 @@ trait AuthConfigImpl extends AuthConfig {
       case _ => false
     }
   }
-
 
 }

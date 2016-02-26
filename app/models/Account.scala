@@ -13,6 +13,7 @@ case class Account(id: Int, password: String, name: String, role: Role)
 
 object Account {
 
+  // for parser
   implicit def rowToRole: Column[Role] = Column.nonNull1 { (value, meta) =>
     val MetaDataItem(qualified, nullable, clazz) = meta
     value match {
@@ -22,6 +23,7 @@ object Account {
     }
   }
 
+  // for play to DB
   implicit def roleToStatement = new ToStatement[Role] {
     def set(s: java.sql.PreparedStatement, index: Int, aValue: Role): Unit = s.setObject(index, aValue.toString)
   }
@@ -39,9 +41,13 @@ object Account {
     SQL("select * from account where name = {name}").on('name -> name).as(account *).find(_.password == password)
   }
 
-  def findByIdAsync(id: Int) = Some(Account(1, "password", "name", Administrator))
+  def findByIdAsync(id: Int) = DB.withConnection { implicit c =>
+    SQL("select * from account where id = {id}").on('id -> id).as(account *).headOption
+  }
 
-  def findByName(name: String) = Some(Account(1, "password", "name", Administrator))
+  def findByName(name: String) =  DB.withConnection { implicit c =>
+    SQL("select * from account where name = {name}").on('name -> name).as(account *)
+  }
 
   def findAll() = DB.withConnection { implicit c =>
     SQL("select * from account").as(account *)
@@ -54,6 +60,5 @@ object Account {
               .executeUpdate()
     }
   }
-
 
 }

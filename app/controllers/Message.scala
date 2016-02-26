@@ -19,7 +19,7 @@ class Message @Inject() extends Controller with AuthElement with AuthConfigImpl 
   def main = StackAction(AuthorityKey -> NormalUser) { implicit request =>
     val user = loggedIn
     val title = "message main"
-    Ok(html.message.main(title))
+    Ok(html.message.main(user.name.toString))
   }
 
   def list = StackAction(AuthorityKey -> NormalUser) { implicit request =>
