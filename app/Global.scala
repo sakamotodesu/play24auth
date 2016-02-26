@@ -1,4 +1,5 @@
-import models.{NormalUser, Administrator, Account}
+import models.Account
+import models.Role.{Administrator, NormalUser}
 import play.api._
 
 object Global extends GlobalSettings {

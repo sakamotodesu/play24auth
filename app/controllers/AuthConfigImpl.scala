@@ -1,7 +1,9 @@
 package controllers
 
 import jp.t2v.lab.play2.auth.AuthConfig
-import models.{NormalUser, Administrator, Account, Role}
+import models.Role.{NormalUser, Administrator}
+import models.{Role, Account}
+
 import play.api.mvc.{Result, RequestHeader}
 
 import scala.concurrent.{Future, ExecutionContext}

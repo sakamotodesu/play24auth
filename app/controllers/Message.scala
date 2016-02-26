@@ -4,11 +4,11 @@ package controllers
 import javax.inject.Inject
 
 import jp.t2v.lab.play2.auth.AuthElement
-import models.{Administrator, NormalUser}
+import models.Role.{Administrator, NormalUser}
 import play.api.mvc.Controller
 import views.html
 
-class Message @Inject() extends Controller  with AuthElement with AuthConfigImpl {
+class Message @Inject() extends Controller with AuthElement with AuthConfigImpl {
 
   // StackAction の 引数に権限チェック用の (AuthorityKey, Authority) 型のオブジェクトを指定します。
   // 第二引数に RequestWithAttribute[AnyContent] => Result な関数を渡します。
